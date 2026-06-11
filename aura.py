@@ -14,7 +14,7 @@
 ║      Control your entire PC with your HANDS and your VOICE.               ║
 ║      Zero keyboard. Zero mouse. Pure air.                                 ║
 ║                                                                           ║
-║      https://github.com/Anlight-OS/AURA                                   ║
+║      https://github.com/moha20299ea-blip/AURA                             ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 

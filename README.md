@@ -50,7 +50,7 @@ All of it runs **locally** from a single file: [`aura.py`](aura.py). No accounts
 > **Requires Python 3.10 – 3.12** (mediapipe doesn't support 3.13+ yet) and Windows 10/11.
 
 ```bat
-git clone https://github.com/Anlight-OS/AURA.git
+git clone https://github.com/moha20299ea-blip/AURA.git
 cd AURA
 install.bat
 ```
@@ -227,7 +227,7 @@ More fixes: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
 - [ ] 🌑 Offline speech recognition (Vosk / whisper.cpp)
 - [ ] ✌️✌️ Two-hand gestures (zoom, rotate)
 - [ ] 🧩 Custom gesture → action mapping from a JSON file
-- [ ] 🐧 Linux support (great with [Anlight OS](https://github.com/Anlight-OS) 👀)
+- [ ] 🐧 Linux support (great with [Anlight OS](https://github.com/moha20299ea-blip/anlight-os) 👀)
 - [ ] 🎯 Eye-tracking assist mode
 - [ ] 🗣️ Wake word ("hey aura")
 

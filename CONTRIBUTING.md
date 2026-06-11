@@ -21,7 +21,7 @@ Yo! PRs are very welcome. The whole app is **one file on purpose** — keep it t
 ## Workflow
 
 ```bash
-git clone https://github.com/Anlight-OS/AURA.git
+git clone https://github.com/moha20299ea-blip/AURA.git
 cd AURA && install.bat
 # hack hack hack
 .venv\Scripts\python aura.py --self-test
