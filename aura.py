@@ -47,6 +47,13 @@ import threading
 import time
 import webbrowser
 
+# Windows consoles default to cp1252, which chokes on the banner/✓/emojis
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 # ════════════════════════════════════════════════════════════════════════════
 #  CONFIG — tweak everything here
 # ════════════════════════════════════════════════════════════════════════════
