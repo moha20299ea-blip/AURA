@@ -2,6 +2,26 @@
 
 AURA tracks **21 landmarks** on one hand at ~30 fps using MediaPipe Hands. Show one hand inside the camera frame — the thin purple rectangle on the HUD is your **control area** (the zone that maps to your full screen).
 
+## 🎚️ Modes (v2)
+
+Gestures are grouped into difficulty presets — cycle with `M` on the camera window or say *"easy/normal/pro mode"*:
+
+| Mode | Gestures available | Feel |
+|---|---|---|
+| **EASY** | cursor, click/drag, scroll, palm-pause, air keyboard | slow & forgiving, nothing destructive |
+| **NORMAL** *(default)* | + right click, pinky-minimize, thumbs-volume | balanced |
+| **PRO** | + fist-close, 3-finger desktop swipe | fast reactions, full power |
+
+A gesture must hold for `STABLE_FRAMES` consecutive frames before it activates — that's the v2 anti-ghost-trigger fix.
+
+## ⌨️ Air keyboard (v2)
+
+Press `K` or say *"keyboard"*: a QWERTY keyboard floats on the camera.
+
+1. **Hover** a key with your index fingertip
+2. **Touch index + middle fingertips together** (or pinch thumb+index) to press
+3. `SHIFT` toggles caps · `←` backspace · `X` (or hold palm) closes it
+
 ## The gestures
 
 | Gesture | How | Action | Notes |
@@ -23,11 +43,14 @@ AURA tracks **21 landmarks** on one hand at ~30 fps using MediaPipe Hands. Show 
 |---|---|---|
 | `CONTROL_MARGIN` | `0.18` | Border around the frame. **Smaller** = reach the whole screen with less hand travel |
 | `SMOOTHING` | `0.35` | `0.05` = silky but laggy → `0.9` = instant but jittery |
-| `PINCH_THRESHOLD` | `0.32` | Raise if clicks misfire, lower if clicks don't register |
+| `PINCH_ON` / `PINCH_OFF` | `0.30` / `0.42` | Pinch hysteresis — close below ON, release above OFF (no flicker) |
+| `STABLE_FRAMES` | `5` | Frames a gesture must hold before it activates |
 | `CLICK_COOLDOWN` | `0.45` | Min seconds between clicks |
 | `ACTION_COOLDOWN` | `1.20` | Min seconds between window/desktop actions |
-| `FIST_HOLD_TIME` | `1.20` | How long to hold the fist before Alt+F4 |
-| `SWIPE_SPEED` | `0.045` | Lower = easier desktop swipes |
+| `FIST_HOLD_TIME` | `1.40` | How long to hold the fist before Alt+F4 (PRO mode) |
+| `SWIPE_SPEED` | `0.45` | Lower = easier desktop swipes (PRO mode) |
+
+*(Modes override some of these live — see `MODES` in `aura.py`.)*
 
 ## Pro tips 💡
 

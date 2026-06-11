@@ -39,7 +39,17 @@ AURA turns any Windows PC into a **touchless machine**:
 | Two fingers to scroll | Full dictation, word-by-word **or letter-by-letter** |
 | Swipe 3 fingers → switch virtual desktop | Spoken punctuation: *"comma"* → `,` *"dot"* → `.` |
 | ✊ Fist → close app · 🤙 Pinky → minimize | Window control, volume, media, screenshots… |
-| 👍👎 Thumbs → volume | English 🇬🇧 + Spanish 🇪🇸 built in |
+| 👍👎 Thumbs → volume | 🧠 smart fuzzy matching — close enough = it works |
+| ⌨️ **AIR KEYBOARD** — type on a floating keyboard with your fingers | 🌍 8 languages, switch LIVE: just say *"spanish"* |
+
+### ✨ New in v2
+
+- ⌨️ **Air Keyboard** — say *"keyboard"* (or press `K`): a keyboard floats on the camera. Hover a key with your index finger, **touch index+middle together** (or pinch) to press it. Shift, numbers, backspace, enter — all there.
+- 🎚️ **EASY / NORMAL / PRO modes** — EASY only has cursor+click+scroll (nothing destructive, perfect to start). PRO unlocks fist-close and desktop swipes and reacts faster. Cycle with `M` or say *"pro mode"*.
+- 🌍 **Live language switching** — say *"spanish"* / *"habla español"* or press `L` to cycle: English, Spanish, Catalan, French, German, Italian, Portuguese, Arabic.
+- 🧠 **Smart command matching** — slightly-off phrases still hit the right command (fuzzy AI-ish matching, tune with `FUZZY_MATCH`).
+- 🛡️ **Gesture stabilization** — a gesture must hold for several frames before firing. No more ghost-triggers from a twitchy hand.
+- ⚡ **Zero-freeze engine** — the mouse now uses the native Windows API and every slow action runs on a worker thread. The camera never drops a frame while you click and drag.
 
 All of it runs **locally** from a single file: [`aura.py`](aura.py). No accounts, no telemetry, no nonsense.
 
@@ -82,12 +92,24 @@ or:
 
 ```bash
 .venv\Scripts\python aura.py                # full experience
+.venv\Scripts\python aura.py --mode easy    # chill preset (default: normal)
+.venv\Scripts\python aura.py --mode pro     # unlock everything
+.venv\Scripts\python aura.py --lang es-ES   # háblale en español
 .venv\Scripts\python aura.py --no-camera    # voice only
 .venv\Scripts\python aura.py --no-voice     # gestures only
-.venv\Scripts\python aura.py --lang es-ES   # háblale en español
 .venv\Scripts\python aura.py --no-preview   # hide the camera window
 .venv\Scripts\python aura.py --quiet        # AURA stops talking back
 ```
+
+### ⌨️ Keys on the camera window
+
+| Key | Action |
+|---|---|
+| `K` | air keyboard on/off |
+| `M` | cycle EASY → NORMAL → PRO |
+| `L` | cycle language |
+| `P` | pause gestures |
+| `Q` | quit |
 
 ### 🌐 Global hotkeys (work anywhere, anytime)
 
@@ -103,18 +125,20 @@ or:
 
 Show **one hand** to the camera. The HUD shows what AURA sees in real time.
 
-| Gesture | Action |
-|---|---|
-| ☝️ Index finger only | **Move cursor** (smoothed, buttery) |
-| 🤏 Pinch thumb + index | **Left click** — hold the pinch to **drag** |
-| 🤌 Pinch thumb + middle | **Right click** |
-| ✌️ Index + middle | **Scroll** up / down |
-| 🤟 Index + middle + ring, swipe ← → | **Switch virtual desktop** |
-| ✊ Fist, hold 1.2s | **Close window** (Alt+F4) — HUD shows a countdown so no accidents 😉 |
-| 🤙 Pinky only | **Minimize window** |
-| 👍 Thumbs up | **Volume up** |
-| 👎 Thumbs down | **Volume down** |
-| 🖐️ Open palm, hold 1s | **Pause / resume** gesture control |
+| Gesture | Action | Mode |
+|---|---|---|
+| ☝️ Index finger only | **Move cursor** (smoothed, buttery) | easy+ |
+| 🤏 Pinch thumb + index | **Left click** — hold the pinch to **drag** | easy+ |
+| ✌️ Index + middle | **Scroll** up / down | easy+ |
+| 🖐️ Open palm, hold 1s | **Pause / resume** gesture control | easy+ |
+| ⌨️ Air keyboard (`K` or say *"keyboard"*) | **Type with your fingers** | easy+ |
+| 🤌 Pinch thumb + middle | **Right click** | normal+ |
+| 🤙 Pinky only | **Minimize window** | normal+ |
+| 👍 Thumbs up / 👎 down | **Volume** up / down | normal+ |
+| ✊ Fist, hold 1.4s | **Close window** (Alt+F4) — HUD shows a countdown | pro |
+| 🤟 Index + middle + ring, swipe ← → | **Switch virtual desktop** | pro |
+
+Gestures are **stabilized**: a pose must hold for a few frames before it counts, so random hand shapes can't trigger anything by accident.
 
 📖 Full details + tuning tips: [docs/GESTURES.md](docs/GESTURES.md)
 
@@ -152,6 +176,24 @@ Say **"press"** + the keys:
 ```
 
 🇪🇸 Spanish works too: *"abre chrome"*, *"cierra la ventana"*, *"sube el volumen"*, *"pulsa control c"*…
+
+### 🌍 Switch language LIVE
+
+Say the language name (or press `L` on the camera window):
+
+```
+"spanish" / "español"     "english"      "catalan" / "català"
+"french"                  "german"       "italian"
+"portuguese"              "arabic"
+```
+
+### 🎚️ Switch gesture mode by voice
+
+```
+"easy mode"      → only cursor, click, scroll, air keyboard (nothing scary)
+"normal mode"    → + right click, minimize, volume
+"pro mode"       → + fist-close, desktop swipes, faster reactions
+```
 
 📖 Every command: [docs/VOICE_COMMANDS.md](docs/VOICE_COMMANDS.md)
 
@@ -200,9 +242,11 @@ NATO alphabet works in letter mode too: *"alpha uniform romeo alpha"* → `aura`
                     └──────────────────┘     └─────────────────────┘
 ```
 
-- **Gestures** run on the main thread (OpenCV window + HUD), **voice** runs on a background thread — they never block each other.
-- Cursor movement is **exponentially smoothed** and scale-invariant (pinch detection is relative to your hand size, so it works near or far from the camera).
-- Every destructive action (✊ close window) has a **hold timer + cooldown** so nothing fires by accident.
+- **Gestures** run on the main thread (OpenCV window + HUD), **voice** runs on a background thread, and **every slow action** (hotkeys, typing, opening apps) runs on a third worker thread — nothing ever blocks the camera.
+- The mouse talks **directly to the Windows API** (`SetCursorPos` / `mouse_event`) — instant, zero per-call overhead.
+- Cursor movement is **exponentially smoothed** and scale-invariant (pinch detection is relative to your hand size, so it works near or far from the camera). Pinches use **hysteresis** (close at one threshold, open at another) so clicks never flicker.
+- Gesture classification is **stabilized over multiple frames** — a pose has to persist before it becomes active.
+- Every destructive action (✊ close window) is PRO-mode only and has a **hold timer + cooldown** so nothing fires by accident.
 - Tweak everything in the `CONFIG` dict at the top of [`aura.py`](aura.py) — sensitivity, language, your own app aliases, hold times…
 
 ---
@@ -224,6 +268,9 @@ More fixes: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
 
 ## 🗺️ Roadmap
 
+- [x] ⌨️ Air keyboard — type with your fingers *(v2)*
+- [x] 🌍 Live multi-language switching *(v2)*
+- [x] 🎚️ Easy / Normal / Pro modes *(v2)*
 - [ ] 🌑 Offline speech recognition (Vosk / whisper.cpp)
 - [ ] ✌️✌️ Two-hand gestures (zoom, rotate)
 - [ ] 🧩 Custom gesture → action mapping from a JSON file

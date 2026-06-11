@@ -1,6 +1,11 @@
 # 🎙️ Voice Command Reference
 
-No wake word. AURA listens continuously (toggle with `Ctrl+Alt+V`). Default language is English (`--lang es-ES` for Spanish — most commands have Spanish aliases built in).
+No wake word. AURA listens continuously (toggle with `Ctrl+Alt+V`). Default language is English — **switch live** by just saying the language name: *"spanish"*, *"español"*, *"english"*, *"catalan"*, *"french"*, *"german"*, *"italian"*, *"portuguese"*, *"arabic"* (or press `L` on the camera window).
+
+🧠 **v2 smart matching:** you don't need the exact phrase — *"closed the window please"* still hits `close window` (fuzzy matching, tune `FUZZY_MATCH` in CONFIG).
+
+⌨️ Say **"keyboard"** / **"teclado"** to open the air keyboard, **"hide keyboard"** to close it.
+🎚️ Say **"easy mode"**, **"normal mode"** or **"pro mode"** to change the gesture preset.
 
 ## Modes
 
